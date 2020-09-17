@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 username = os.getenv("username")
-password = os.getenv("username")
+password = os.getenv("password")
 
 DB_URL = f'postgresql://{username}:{password}@localhost/flasknotes'
 app = Flask(__name__)
