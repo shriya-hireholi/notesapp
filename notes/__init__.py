@@ -12,6 +12,7 @@ load_dotenv()
 
 username = os.getenv("username")
 password = os.getenv("password")
+email = os.getenv("email")
 
 DB_URL = f'postgresql://{username}:{password}@localhost/flasknotes'
 app = Flask(__name__)
@@ -32,7 +33,7 @@ app.config.update(
     MAIL_PORT=465,
     MAIL_USE_SSL=True,
     # gmail authentication
-    MAIL_USERNAME='hireholis@gmail.com',
+    MAIL_USERNAME=email,
     MAIL_PASSWORD='aeaptxavqjgyyhng'
 )
 mail = Mail(app)
