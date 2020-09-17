@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    &nbsp;
+    &nbsp;
+    <h1 style="text-align: center;">Notebooks</h1>
+    &nbsp;
+
+    <div class="row row-cols-md-4 row-cols-sm-3" style="justify-content: center;">
+        
+        {% for notebook in notebooks %}
+        <div class="col mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <a href="/notes/{{notebook.id}}" class="card-title"><h4>{{notebook.name}}</h4></a>
+                    <a href="/delete/{{notebook.id}}">Delete</a>
+                    <a href="/update/{{notebook.id}}">Update</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <hr>
+    &nbsp;
+    <div>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <h4>Add New Notebook</h4>
+            &nbsp;
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.name.label(class="form-control-label") }}
+    
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.name(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

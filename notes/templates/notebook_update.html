@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    &nbsp;
+    &nbsp;
+    <div>
+        <h1 style="text-align: center">Update Notebook</h1>
+    </div>
+    &nbsp;
+    <div>
+        <div class="form">
+            <form action="" method="POST">
+                <input class="form-control" type="text" name="name" id="name" value="{{notebook.name}}">
+                <br>
+                <input type="submit" value="Update">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
