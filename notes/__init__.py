@@ -7,6 +7,7 @@ from flask_seeder import FlaskSeeder
 from sqlalchemy_utils import create_database, database_exists
 import os
 from dotenv import load_dotenv
+from elasticsearch import Elasticsearch
 
 load_dotenv()
 
@@ -18,6 +19,7 @@ DB_URL = f'postgresql://{username}:{password}@localhost/flasknotes'
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '84025a69a81786a5da5ab95f190e1ca7b9f3570c83'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
@@ -38,6 +40,9 @@ app.config.update(
 )
 mail = Mail(app)
 
+app.config['ELASTICSEARCH_URL'] = os.getenv("ELASTICSEARCH_URL")
+app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
+        if app.config['ELASTICSEARCH_URL'] else None
 
 if not database_exists(DB_URL):
     print('Creating Database')

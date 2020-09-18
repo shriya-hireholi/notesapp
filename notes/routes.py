@@ -7,7 +7,8 @@ from notes.forms import (
     LoginForm,
     ResetRequestForm,
     ResetPasswordForm,
-    UpdateAccountForm)
+    UpdateAccountForm,
+    SearchForm)
 from notes.models import Notebook, Note, Users
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, current_user, logout_user, login_required
@@ -274,3 +275,13 @@ def account():
     elif request.method == 'GET':
         form.email.data = current_user.email
     return render_template('profile.html', form=form)
+
+
+@app.route('/search')
+@login_required
+def search():
+    form = SearchForm()
+    if request.args.get('search') == '':
+        return redirect(url_for('notebooks'))
+    notebooks, total = Notebook.search(request.args.get('search'))
+    return render_template('search.html', notebooks=notebooks, form=form)

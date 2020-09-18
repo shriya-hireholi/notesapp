@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Search Results</h1>
+    <div class="row row-cols-md-4 row-cols-sm-3" style="justify-content: center;">
+        
+        {% for notebook in notebooks %}
+        <div class="col mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <a href="/notes/{{notebook.id}}" class="card-title"><h4>{{notebook.name}}</h4></a>
+                    <a href="/delete/{{notebook.id}}">Delete</a>
+                    <a href="/update/{{notebook.id}}">Update</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
