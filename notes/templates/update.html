@@ -8,14 +8,21 @@
     </div>
     &nbsp;
     <div>
-        <div class="form">
-            <form action="" method="POST">
+        <form action="" method="POST">
+            <div class="input-group mb-3 form-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Title</span>
+                </div>
                 <input class="form-control" type="text" name="title" id="title" value="{{note.title}}">
-                <input class="form-control" type="text" name="content" id="content" value="{{note.content}}">
-                <br>
-                <input type="submit" value="Update">
-            </form>
-        </div>
+            </div>
+            <div class="input-group form-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">Content</span>
+                </div>
+                <textarea class="form-control" aria-label="Content" name="content" id="content">{{note.content}}</textarea>
+            </div>
+            <input type="submit" value="Update">
+        </form>
     </div>
 </div>
     

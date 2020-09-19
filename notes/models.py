@@ -92,8 +92,9 @@ class Notebook(SearchableMixin, db.Model):
         return self.name
 
 
-class Note(db.Model):
+class Note(SearchableMixin, db.Model):
     __tablename__ = 'note'
+    __searchable__ = ['id', 'notebook', 'title', 'content']
     id = db.Column(db.Integer, primary_key=True)
     notebook = db.Column(
         db.Integer,

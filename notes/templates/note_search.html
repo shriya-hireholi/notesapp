@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    &nbsp;
+    &nbsp;
+    <div class="d-flex">
+        <div class="mr-auto p-2"><a href="/notes/{{notebook.id}}" class="card-title"><h3>{{notebook.name}}</h3></a></div>
+        <div class="p-2">
+            <form class="form-inline my-2 my-lg-0" method="GET" action="/{{notebook.id}}/search-note">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search Note" aria-label="Search" name="search" id="search">
+            </form>
+        </div>
+    </div>
+    <hr>
+    &nbsp;
+    <div class="row row-cols-md-4 row-cols-sm-2" >
+        
+        {% for note in notes %}
+        <div class="col mb-3">
+            <div class="card">
+                <h5 class="card-header">{{note.title}}</h5>
+                <div class="card-body">
+                    <p class="card-text">{{note.content}}</p>
+                    <a href="/delete/{{note.id}}/{{note.notebook}}">Delete</a>
+                    <a href="/update/{{note.id}}/{{note.notebook}}">Update</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

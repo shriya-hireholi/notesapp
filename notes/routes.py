@@ -284,4 +284,28 @@ def search():
     if request.args.get('search') == '':
         return redirect(url_for('notebooks'))
     notebooks, total = Notebook.search(request.args.get('search'))
-    return render_template('search.html', notebooks=notebooks, form=form)
+    if total == 0:
+        flash('No search result found', 'danger')
+        return redirect(url_for('notebooks'))
+    return render_template(
+        'notebook_search.html',
+        notebooks=notebooks,
+        form=form)
+
+
+@app.route('/<int:id>/search-note')
+@login_required
+def note_search(id):
+    notebook = Notebook.query.get_or_404(id)
+    form = SearchForm()
+    if request.args.get('search') == '':
+        return redirect(url_for('notes', id=id))
+    notes, total = Note.search(request.args.get('search'))
+    if total == 0:
+        flash('No search result found', 'danger')
+        return redirect(url_for('notes', id=id))
+    return render_template(
+        'note_search.html',
+        notes=notes,
+        notebook=notebook,
+        form=form)

@@ -8,13 +8,17 @@
     </div>
     &nbsp;
     <div>
-        <div class="form">
-            <form action="" method="POST">
+        <form action="" method="POST">
+            <div class="input-group mb-3 form-group">
+                <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+                </div>
                 <input class="form-control" type="text" name="name" id="name" value="{{notebook.name}}">
-                <br>
+                &nbsp;
+                &nbsp;
                 <input type="submit" value="Update">
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

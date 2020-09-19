@@ -1,4 +1,3 @@
-from flask import current_app
 from notes import app
 
 
@@ -16,11 +15,12 @@ def remove_from_index(index, model):
         return
     app.elasticsearch.delete(index=index, id=model.id)
 
+
 def query_index(index, query):
     if not app.elasticsearch:
         return [], 0
     search = app.elasticsearch.search(
         index=index,
-        body={'query': {'multi_match': {'query': query, 'fields': ['*']}}})
+        body={'query': {'query_string': {'query': query, 'fields': ['*']}}})
     ids = [int(hit['_id']) for hit in search['hits']['hits']]
     return ids, search['hits']['total']['value']

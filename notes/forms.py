@@ -10,7 +10,7 @@ from wtforms.validators import (
     Length, Email,
     EqualTo,
     ValidationError)
-from notes.models import Users
+from notes.models import Users, Notebook
 from flask_login import current_user
 
 
