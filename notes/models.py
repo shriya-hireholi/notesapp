@@ -122,7 +122,7 @@ class Note(SearchableMixin, db.Model):
 #             }
 #         )
 
-#         # Create 5 users
+#         # Create 15 notes
 #         for note in faker.create(15):
 #             db.session.add(note)
         
@@ -135,7 +135,7 @@ class Note(SearchableMixin, db.Model):
 #             }
 #         )
 
-#         # Create 5 users
+#         # Create 5 notebooks
 #         for ntbk in notebook.create(5):
 #             db.session.add(ntbk)
 #     run()
