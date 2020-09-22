@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from flask_seeder import Seeder, Faker, generator
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from notes.search import add_to_index, remove_from_index, query_index
+from datetime import datetime
 
 
 class SearchableMixin(object):
@@ -82,10 +83,11 @@ class Users(db.Model, UserMixin):
 
 class Notebook(SearchableMixin, db.Model):
     __tablename__ = 'notebook'
-    __searchable__ = ['id', 'name', 'user']
+    __searchable__ = ['name']
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
     user = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
     notes = db.relationship('Note', backref='Notebook', lazy=True)
 
     def __repr__(self):
@@ -94,7 +96,7 @@ class Notebook(SearchableMixin, db.Model):
 
 class Note(SearchableMixin, db.Model):
     __tablename__ = 'note'
-    __searchable__ = ['id', 'notebook', 'title', 'content']
+    __searchable__ = ['title', 'content']
     id = db.Column(db.Integer, primary_key=True)
     notebook = db.Column(
         db.Integer,
@@ -102,40 +104,35 @@ class Note(SearchableMixin, db.Model):
         nullable=False)
     title = db.Column(db.String(30), nullable=False)
     content = db.Column(db.String(500), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return self.title
 
 
-# class DemoSeeder(Seeder):
+class DemoSeeder(Seeder):
 
-#     def run():
-#         # print(current_user.id)
-#         # user_id = current_user.get_id()
-#         faker = Faker(
-#             cls=Note,
-#             init={
-#                 "id": generator.Sequence(),
-#                 "notebook": 1,
-#                 "title": generator.Name(),
-#                 "content": generator.String('hello how are you')
-#             }
-#         )
-
-#         # Create 15 notes
-#         for note in faker.create(15):
-#             db.session.add(note)
+    def run():
+        faker = Faker(
+            cls=Note,
+            init={
+                "notebook": 1,
+                "title": generator.Name(),
+                "content": generator.String('hello how are you')
+            }
+        )
         
-#         notebook = Faker(
-#             cls=Notebook,
-#             init={
-#                 "id": generator.Sequence(),
-#                 "name": generator.Name(),
-#                 "user": 1
-#             }
-#         )
+        notebook = Faker(
+            cls=Notebook,
+            init={
+                "name": generator.Name(),
+                "user": 1
+            }
+        )
+        for ntbk in notebook.create(5):
+            db.session.add(ntbk)
 
-#         # Create 5 notebooks
-#         for ntbk in notebook.create(5):
-#             db.session.add(ntbk)
-#     run()
+        for note in faker.create(15):
+            db.session.add(note)
+
+    run()

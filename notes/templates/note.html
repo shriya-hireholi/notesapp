@@ -16,7 +16,7 @@
     &nbsp;
     <div class="row row-cols-md-4 row-cols-sm-2" >
         
-        {% for note in notes %}
+        {% for note in notes.items %}
         <div class="col mb-3">
             <div class="card">
                 <h5 class="card-header">{{note.title}}</h5>
@@ -29,6 +29,17 @@
         </div>
         {% endfor %}
     </div>
+    {% for page_num in notes.iter_pages(left_edge=1, right_edge=1) %}
+        {% if page_num %}
+            {% if notes.page == page_num %}
+                <a class="btn btn-info mb-4" href="{{url_for('notes', id=notebook.id, page=page_num)}}">{{page_num}}</a>
+            {% else %}
+            <a class="btn btn-outline-info mb-4" href="{{url_for('notes', id=notebook.id, page=page_num)}}">{{page_num}}</a>
+            {% endif %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
     <hr>
     &nbsp;
     <div>

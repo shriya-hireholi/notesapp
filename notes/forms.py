@@ -101,4 +101,4 @@ class UpdateAccountForm(FlaskForm):
 
 
 class SearchForm(FlaskForm):
-    search = StringField('Search', validators=[DataRequired()])
+    q = StringField('Search', validators=[DataRequired()])

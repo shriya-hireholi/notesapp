@@ -137,7 +137,6 @@ def notebooks():
         db.session.add(notebook_name)
         db.session.commit()
         return redirect(url_for('notebooks'))
-
     notebooks = Notebook.query.filter_by(user=user_id)
     return render_template('notebook.html', form=form, notebooks=notebooks)
 
@@ -155,8 +154,8 @@ def notes(id):
         db.session.add(note)
         db.session.commit()
         return redirect(url_for('notes', id=id))
-
-    notes = Note.query.filter_by(notebook=id)
+    page = request.args.get('page', 1, type=int)
+    notes = Note.query.filter_by(notebook=id).order_by('date_created').paginate(page=page, per_page=8)
     return render_template(
         'note.html',
         form=form,
@@ -301,6 +300,7 @@ def note_search(id):
     if request.args.get('search') == '':
         return redirect(url_for('notes', id=id))
     notes, total = Note.search(request.args.get('search'))
+    print('total is', total)
     if total == 0:
         flash('No search result found', 'danger')
         return redirect(url_for('notes', id=id))
